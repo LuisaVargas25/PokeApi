@@ -1,31 +1,24 @@
-function GenerarLista(pokemonoes){
-
-    var listapokes;
-    for(var i=0; i < 9;i++){
-        id = i + 1;
-        nombre = pokemones [i].name 
-        listapokes.innerHTML +=
-        document.getElementById ("root").innerHTML +=
-
-        `<div class="un-pokemon" onclick="Detalle(${id})">
-                <p>${id} ${nombre}</p>
-                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png" width="auto" height="60" loading="lazy" alt="${nombre}">
-            </div>
-            `
+function generarLista(arraypokemones) {
+    let listaHTML = "";
+    for (let i = 0; i < arraypokemones.length; i++) { 
+        let id = arraypokemones[i].url.split("/")[6]; //id es igual al numero de la vuelta que da el for
+        listaHTML += `
+        <div class="c-lista-pokemon poke-${id}" onclick="Pokemon('${id}')">
+            <p>#${id}</p>
+            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png" width="auto" height="60" loading="lazy" alt="${arraypokemones[i].name}">
+            <p>${arraypokemones[i].name}</p>
+        </div>`;
     }
 
-    return listapokes
+    console.log(listaHTML)
+    return listaHTML;
 }
-function buscadorfuncion(asa){
-    if(asa.length >= 3){
-        alert (asa)
-                
-}
-}
-function FiltroConexion(filtroelegido){
-        if(asa.length >= 3){
 
-       const filtrados = [];
+
+
+function buscadorfuncion(sza){
+    if(sza.length >= 3){
+        const filtrados = [];
         for (let i = 0; i < pokemones.length; i++) {
             const nombre = pokemones[i].name.toLowerCase();
             if (nombre.includes(sza.toLowerCase())) {
@@ -34,30 +27,39 @@ function FiltroConexion(filtroelegido){
         }
         let listaHTML = generarLista(filtrados)
         document.getElementById("la-lista").innerHTML = listaHTML;
-}
+    }else{
+        let listaHTML = generarLista(pokemones)
+        document.getElementById("la-lista").innerHTML = listaHTML;
+    }
+
+    
 }
 
-function Home () {
- const buscador = document.createElement("input");
-    buscador.classList.add("c-buscador");
+function Home(){
+
+     
+  //buscador crear una constante que se va llamar buscador  
+    const buscador = document.createElement("input");//agrega una clase
+    buscador.classList.add("c-buscador");//agrega un atributo tipo texto
     buscador.type = "text";
     buscador.placeholder = "Buscar Pokémon...";
-    buscador.addEventListener("input", () => {
+    buscador.addEventListener("input", () => { //evento de tipo input que si se escribe algo pasa al buscador
             buscadorfuncion(buscador.value);
     });
-    //filtro
-     const tipos = [
+
+        //contenedor filtro
+    const tipos = [
         "normal", "fighting", "flying", "poison", "ground", "rock", "bug",
         "ghost", "steel", "fire", "water", "grass", "electric", "psychic", "ice",
         "dragon", "dark", "fairy", "stellar", "unknown"
     ];
 
-    const filtro = document.createElement("div");
+    const contenedorFiltro = document.createElement("section");
+    contenedorFiltro.classList.add("tipos-container"); 
 
-    
     for (let i = 0; i < tipos.length; i++) {
-        const btn = document.createElement("button");
-        btn.textContent = tipos[i];
+        const btn = document.createElement("button");//cree un boton por cada ciclo
+        btn.textContent = tipos[i]; 
         
         // Agregar el evento click para filtrar por tipo
         btn.addEventListener("click", () => {
@@ -65,26 +67,21 @@ function Home () {
         });
 
         // Agregar el botón al contenedor
-        filtro.appendChild(btn);
+        contenedorFiltro.appendChild(btn);
     }
+   
+
+    //contenedor
+    const listaHTML = generarLista(pokemones);
+    var contenedorPokes = document.createElement("Section")
+    contenedorPokes.id = "la-lista"
+    contenedorPokes.innerHTML = listaHTML;
 
 
-    //Listas
 
-     var contenedorLista = document.createElement("div");
-     contenedorLista.classList.add("c-lista");
-     contenedorLista.innerHTML(GenerarLista(pokemones))
-     contenedorLista.innerHTML(GenerarLista(pokemones))
-
-
-    //Agregar
 
     document.getElementById("root").appendChild(buscador)
-        document.getElementById("root").appendChild(filtro)
-                document.getElementById("root").appendChild(contenedorLista)
-console.log(GenerarLista(pokemones))
-
-document.getElementById("root").HTML=" "
-
-
-}
+    document.getElementById("root").appendChild(contenedorFiltro)
+    document.getElementById("root").appendChild(contenedorPokes)
+      
+};
